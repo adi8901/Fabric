@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fabric Quality Classifier</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6f8;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+        }
+
+        .subtitle {
+            color: #666;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 16px;
+            margin-top: 0;
+        }
+
+        .upload-btn {
+            display: block;
+            background: #222;
+            color: white;
+            padding: 14px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .preview {
+            min-height: 350px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .preview img {
+            max-width: 100%;
+            max-height: 400px;
+        }
+
+        .analyze-btn {
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #222;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .result {
+            font-size: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 10px;
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .preview {
+                min-height: 280px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Fabric Quality Classifier</h1>
+        <div class="subtitle">ResNet18 Classification</div>
+    </header>
+
+    <div class="layout">
+
+        <div>
+
+            <div class="card">
+                <h2>MODEL</h2>
+
+                <p>
+                    <strong>Project:</strong><br>
+                    classification-of-fabric-quality
+                </p>
+
+                <p>
+                    <strong>Model:</strong><br>
+                    ResNet18 Classification
+                </p>
+            </div>
+
+            <div class="card">
+                <h2>UPLOAD IMAGE</h2>
+
+                <label class="upload-btn">
+                    📷 Take Photo / Choose Image
+
+                    <input
+                        id="imageInput"
+                        type="file"
+                        accept="image/*"
+                        capture="environment"
+                        hidden
+                    >
+                </label>
+            </div>
+
+        </div>
+
+        <div>
+
+            <div class="card">
+
+                <h2>IMAGE PREVIEW</h2>
+
+                <div class="preview">
+
+                    <span id="placeholder">
+                        Select or take a fabric photo
+                    </span>
+
+                    <img
+                        id="previewImage"
+                        style="display:none;"
+                        alt="Fabric Preview"
+                    >
+
+                </div>
+
+                <button class="analyze-btn" id="analyzeBtn">
+                    ANALYZE FABRIC
+                </button>
+
+            </div>
+
+            <div class="card result">
+
+                <h2>OUTPUT</h2>
+
+                <p>
+                    <strong>Prediction:</strong>
+                    <span id="prediction">---</span>
+                </p>
+
+                <p>
+                    <strong>Confidence:</strong>
+                    <span id="confidence">---</span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    const imageInput = document.getElementById("imageInput");
+    const previewImage = document.getElementById("previewImage");
+    const placeholder = document.getElementById("placeholder");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+
+    imageInput.addEventListener("change", function () {
+
+        const file = imageInput.files[0];
+
+        if (!file) return;
+
+        previewImage.src = URL.createObjectURL(file);
+        previewImage.style.display = "block";
+        placeholder.style.display = "none";
+    });
+
+    analyzeBtn.addEventListener("click", function () {
+
+        if (!imageInput.files[0]) {
+            alert("Please select or take a photo first.");
+            return;
+        }
+
+        document.getElementById("prediction").textContent = "Ready";
+        document.getElementById("confidence").textContent = "---";
+    });
+</script>
+
+</body>
+</html>
