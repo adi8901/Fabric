@@ -1,6 +1,9 @@
 import tempfile
 from inference_sdk import InferenceHTTPClient, InferenceConfiguration
 import streamlit as st
+
+api_key = st.secrets["ROBOFLOW_API_KEY"]
+
 st.title("Fabric Quality Classification")
 st.write("Upload a fabric image to classify its quality.")
 
@@ -48,4 +51,4 @@ if uploaded_file is not None:
 
         except Exception as e:
             st.error(f"Classification failed: {e}")
-api_key = st.secrets["ROBOFLOW_API_KEY"]
+
