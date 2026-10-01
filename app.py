@@ -46,8 +46,36 @@ if uploaded_file is not None:
                         use_cache=True
                     )
 
-            st.subheader("Classification Result")
-            st.json(result)
+            # Extract the prediction from the Roboflow response
+data = result[0] if isinstance(result, list) else result
+
+if isinstance(data, dict) and isinstance(data.get("predictions"), dict):
+    data = data["predictions"]
+
+label = data.get("top", "Unknown")
+confidence = float(data.get("confidence", 0))
+
+# Display a clean result card
+st.markdown("---")
+st.subheader("🔍 Classification Result")
+
+st.success(f"Predicted Fabric Defect: **{label.title()}**")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.metric("Predicted Class", label.title())
+
+with col2:
+    st.metric("Confidence Score", f"{confidence:.1%}")
+
+st.write("Model Confidence")
+st.progress(max(0.0, min(confidence, 1.0)))
+
+st.caption(
+    "Prediction generated using the trained ResNet18 model "
+    "through Roboflow."
+)
 
         except Exception as e:
             st.error(f"Classification failed: {e}")
