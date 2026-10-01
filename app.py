@@ -1,6 +1,6 @@
 import streamlit as st
-import tempfile
-from inference_sdk import InferenceHTTPClient, InferenceConfiguration
+import tempfile from inference_sdk 
+import InferenceHTTPClient, InferenceConfiguration
 st.title("Fabric Quality Classification")
 st.write("Upload a fabric image to classify its quality.")
 
